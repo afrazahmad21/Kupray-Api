@@ -13,7 +13,7 @@ exports.verify_login = (req, res) => {
             }
 
         }).catch((e) => {
-        res.status(400).json({"message": "somethng went wrong", "error": e})
+        res.status(400).json({"message": "somethng went wrong", "error": e.meaage})
     })
 }
 
