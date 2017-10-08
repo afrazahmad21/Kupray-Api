@@ -24,4 +24,5 @@ app.listen(port, function(err){
 
 app.get('/',(req, res)=>{
     console.log("welcome to kupray API");
+    res.status(200).json({"message": "welcome to kupray API"})
 })
