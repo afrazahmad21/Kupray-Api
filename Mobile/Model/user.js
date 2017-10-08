@@ -11,6 +11,7 @@ exports.verify_login = (phone_number, password) => {
             if (err) {
                 reject(err)
             } else {
+                console.log(results)
                 if (results) {
                     resolve(true)
                 } else {
