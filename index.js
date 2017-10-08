@@ -3,7 +3,7 @@ const app = express();
 const basic_auth = require('basicauth-middleware')
 const bodyParser= require('body-parser')
 const mobile_routes = require('./Mobile/Routes/index')
-
+const connection = require('./mysql')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -11,7 +11,7 @@ app.use(basic_auth("kupay","kupay"))
 
 //Mobile Routes
 app.use(mobile_routes)
-
+app.set('connection', connection)
 const port = 80
 app.listen(port, function(err){
 

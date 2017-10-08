@@ -4,7 +4,7 @@
 
 
 exports.verify_login = (phone_number, password) => {
-    const connection = require('../../mysql');
+    const connection = app.get('connection')
 
     return new Promise((resolve, reject) => {
         connection.query(`select * from User where phone_number = '${phone_number}' and password = '${password}';`, (err, results, fields) => {
@@ -18,7 +18,6 @@ exports.verify_login = (phone_number, password) => {
                     resolve(false)
                 }
             }
-            connection.end()
         })
     })
 
