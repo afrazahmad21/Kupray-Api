@@ -20,9 +20,9 @@ exports.verify_login = (req, res) => {
 }
 
 exports.add_user = (req, res) => {
-    if(req.body.length != 11){
+    if(req.body.phone_number.length != 11){
         res.status(200).json({"meaage":"Phone number is not perfect 11 digits"})
-    }else if (!req.body.passwordif.match(/^[0-9a-z]+$/)) {
+    }else if (!req.body.password.match(/^[0-9a-z]+$/)) {
         res.status(200).json({"meaage":"Password must oly be alpha numeric"})
     }else if(req.body.password.length >7){
         res.status(200).json({"meaage":"Password length must be <=7"})
