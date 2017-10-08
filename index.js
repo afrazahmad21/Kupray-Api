@@ -21,3 +21,7 @@ app.listen(port, function(err){
         console.log("started listening @ port",port)
     }
 })
+
+app.get('/',(req, res)=>{
+    console.log("welcome to kupray API");
+})
