@@ -22,9 +22,7 @@ exports.verify_login = (connection,phone_number, password) => {
 
 }
 
-exports.add_user = (body) => {
-    const connection = require('../../mysql')
-
+exports.add_user = (connection, body) => {
     const query = `INSERT INTO User(username, phone_number, password, createdDateTime, ModiiedDateTime) VALUES ('${body.username}', '${body.phone_number}', '${body.password}', Now(), Now()`;
 
     return new Promise((resolve, reject) => {
@@ -32,7 +30,7 @@ exports.add_user = (body) => {
             if (error) {
                 reject(error)
             } else {
-                console.log(results, fields);
+                console.log(results);
                 if (results) {
                     resolve(true)
                 } else {

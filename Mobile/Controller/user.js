@@ -27,7 +27,8 @@ exports.add_user = (req, res) => {
     }else if(req.body.password.length >7){
         res.status(200).json({"meaage":"Password length must be <=7"})
     }else {
-        user_model.add_user(req.body)
+        const connection = req.app.get('connection')
+        user_model.add_user(connection, req.body)
             .then(result)
     }
 
