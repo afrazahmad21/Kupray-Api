@@ -5,6 +5,7 @@
 const user_model = require('../Model/user')
 exports.verify_login = (req, res) => {
     const connection = req.app.get('connection')
+    //connection added
     user_model.verify_login(connection, req.body.phone_number, req.body.password)
         .then((valid_user) => {
             if (valid_user) {
