@@ -7,7 +7,7 @@ const mobile_routes = require('./Mobile/Routes/index')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(basic_auth("kupray","kupray"))
+app.use(basic_auth("kupay","kupay"))
 
 //Mobile Routes
 app.use(mobile_routes)

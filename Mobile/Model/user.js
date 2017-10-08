@@ -9,8 +9,10 @@ exports.verify_login = (phone_number, password) => {
     return new Promise((resolve, reject) => {
         connection.query(`select * from User where phone_number = '${phone_number}' and password = '${password};`, (err, results, fields) => {
             if (err) {
+                console.log(err)
                 reject(err)
             } else {
+                console.log(results, fields)
                 if (results) {
                     resolve(true)
                 } else {
