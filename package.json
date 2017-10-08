@@ -1,0 +1,25 @@
+{
+  "name": "kupray-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/afrazahmad21/Kupray-Api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/afrazahmad21/Kupray-Api/issues"
+  },
+  "homepage": "https://github.com/afrazahmad21/Kupray-Api#readme",
+  "dependencies": {
+    "basicauth-middleware": "^2.0.0",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.1",
+    "mysql": "^2.15.0"
+  }
+}
