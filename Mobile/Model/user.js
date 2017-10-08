@@ -12,7 +12,7 @@ exports.verify_login = (phone_number, password) => {
                 reject(err)
             } else {
                 console.log(results)
-                if (results) {
+                if (results.length >0) {
                     resolve(true)
                 } else {
                     resolve(false)
