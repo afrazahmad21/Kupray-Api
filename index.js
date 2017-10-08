@@ -1,8 +1,8 @@
 const express = require('express')
 const app = express();
 const basic_auth = require('basicauth-middleware')
-
-const mobile_routes = require('/Mobile/Routes/index')
+const bodyParser= require('body-parser')
+const mobile_routes = require('./Mobile/Routes/index')
 
 
 app.use(bodyParser.urlencoded({ extended: false }))

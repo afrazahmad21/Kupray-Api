@@ -10,6 +10,8 @@ route.post('/user/login',(req,res)=>{
 })
 
 route.post('/user/add',(req,res)=>{
-    user_controller
+    user_controller.add_user(req,res)
 
 })
+
+module.exports= route

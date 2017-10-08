@@ -3,7 +3,7 @@
  */
 
 
-exports.verify_login = (phone_number, password => {
+exports.verify_login = (phone_number, password) => {
     const connection = require('../../mysql');
 
     return new Promise((resolve, reject) => {
@@ -22,7 +22,7 @@ exports.verify_login = (phone_number, password => {
     })
 
 
-})
+}
 
 exports.add_user = (body) => {
     const connection = require('../../mysql')
