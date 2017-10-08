@@ -23,7 +23,7 @@ exports.verify_login = (connection,phone_number, password) => {
 }
 
 exports.add_user = (connection, body) => {
-    const query = `INSERT INTO User(username, phone_number, password, createdDateTime, ModiiedDateTime) VALUES ('${body.username}', '${body.phone_number}', '${body.password}', Now(), Now()`;
+    const query = `INSERT INTO User(username, phone_number, password, createdDateTime, ModiiedDateTime) VALUES ('${body.username}', '${body.phone_number}', '${body.password}', Now(), Now())`;
 
     return new Promise((resolve, reject) => {
         connection.query(query, (error, results, fields) => {

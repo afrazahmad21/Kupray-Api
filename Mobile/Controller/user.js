@@ -29,7 +29,9 @@ exports.add_user = (req, res) => {
     }else {
         const connection = req.app.get('connection')
         user_model.add_user(connection, req.body)
-            .then(result)
+            .then(result).catch((e) => {
+            res.status(400).json({"message": "somethng went wrong", "error": e.meaage})
+        })
     }
 
 }
