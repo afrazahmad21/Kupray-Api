@@ -4,7 +4,8 @@
 
 const user_model = require('../Model/user')
 exports.verify_login = (req, res) => {
-    user_model.verify_login(req.body.phone_number, req.body.password)
+    const connection = req.app.get('connection')
+    user_model.verify_login(connection, req.body.phone_number, req.body.password)
         .then((valid_user) => {
             if (valid_user) {
                 res.status(200).json({"message": " User Verified", "httpstatus": 200})

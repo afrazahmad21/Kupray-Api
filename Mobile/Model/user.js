@@ -3,9 +3,7 @@
  */
 
 
-exports.verify_login = (phone_number, password) => {
-    const connection = app.get('connection')
-
+exports.verify_login = (connection,phone_number, password) => {
     return new Promise((resolve, reject) => {
         connection.query(`select * from User where phone_number = '${phone_number}' and password = '${password}';`, (err, results, fields) => {
             if (err) {
