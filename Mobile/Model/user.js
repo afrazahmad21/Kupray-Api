@@ -23,7 +23,11 @@ exports.verify_login = (connection,phone_number, password) => {
 }
 
 exports.add_user = (connection, body) => {
-    const query = `INSERT INTO User(username, phone_number, password, createdDateTime, ModiiedDateTime) VALUES ('${body.username}', '${body.phone_number}', '${body.password}', Now(), Now())`;
+    let prefered_language = body.prefered_language || "English";
+    let device_type = body.device_type || "";
+    let device_os_version = body.device_os_version || "";
+    let device_other = body.device_other || "";
+    const query = `INSERT INTO User(username, phone_number, password, createdDateTime, ModiiedDateTime,prefered_language,device_type,device_os_version,device_other) VALUES ('${body.username}', '${body.phone_number}', '${body.password}', Now(), Now(),'${prefered_language}','${device_type}','${device_os_version}','${device_other}')`;
 
     return new Promise((resolve, reject) => {
         connection.query(query, (error, results, fields) => {
@@ -41,4 +45,24 @@ exports.add_user = (connection, body) => {
         })
     })
 
+}
+
+exports.getUser = function (phone_number, password) {
+    const query = `select * from User where phone_number = '${phone_number}' and password = '${password}'`;
+
+    return new Promise((resolve, reject) => {
+        connection.query(query, (error, results, fields) => {
+            if (error) {
+                reject(error)
+            } else {
+                console.log(results);
+                if (results) {
+                    resolve(results[0])
+                } else {
+                    reject(false)
+                }
+            }
+
+        })
+    })
 }
