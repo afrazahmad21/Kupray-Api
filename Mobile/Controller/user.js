@@ -27,7 +27,7 @@ exports.verify_login = (req, res) => {
                     .then(user => {
                         let response = UserSchema
                         response.message = " Sign in successfully";
-                        object.assign(response.user, user)
+                        Object.assign(response.user, user)
                         res.status(200).json(response)
                     })
 
@@ -56,7 +56,7 @@ exports.add_user = (req, res) => {
                         .then(user => {
                             let response = UserSchema
                             response.message = " User Added Successfully";
-                            object.assign(response.user, user)
+                            Object.assign(response.user, user)
                             res.status(200).json(response)
                         })
                 } else {
