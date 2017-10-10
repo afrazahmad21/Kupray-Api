@@ -63,7 +63,7 @@ exports.add_user = (req, res) => {
                     res.status(200).json({"error": false,"message": "user Could not be added", "httpstatus": 301})
                 }
             }).catch((e) => {
-            res.status(400).json({"error": true, "message": "somethng went wrong", "error": e.meaage, "httpstatus": 400})
+            res.status(400).json({"error": true, "message": "somethng went wrong", "httpstatus": 400})
         })
     }
 
