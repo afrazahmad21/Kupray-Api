@@ -47,7 +47,7 @@ exports.add_user = (connection, body) => {
 
 }
 
-exports.getUser = function (phone_number, password) {
+exports.getUser = function (connection,phone_number, password) {
     const query = `select * from User where phone_number = '${phone_number}' and password = '${password}'`;
 
     return new Promise((resolve, reject) => {
