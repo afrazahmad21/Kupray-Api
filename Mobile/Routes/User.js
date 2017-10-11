@@ -14,4 +14,13 @@ route.post('/user/add',(req,res)=>{
 
 })
 
+route.post('/user/update/password',(req,res)=>{
+    user_controller.updatePassword(req,res)
+
+})
+
+route.post('/user/update/phonenumber',(req,res)=>{
+    user_controller.updatePhoneNumber(req,res)
+
+})
 module.exports= route

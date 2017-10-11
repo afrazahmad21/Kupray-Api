@@ -66,3 +66,41 @@ exports.getUser = function (connection,phone_number, password) {
         })
     })
 }
+
+exports.updatePhoneNumber =  function(conection, old_phone_number, new_phone_number, password){
+    const query = `update User set phone_number='${new_phone_number}' where phone_number='${old_phone_number}' and password='${password}';`
+    return new Promise((resolve, reject) => {
+        connection.query(query, (error, results) => {
+            if (error) {
+                reject(error)
+            } else {
+                console.log(results);
+                if (results) {
+                    resolve(results)
+                } else {
+                    reject(false)
+                }
+            }
+
+        })
+
+}
+
+exports.updatePassword =  function(conection, old_password, new_password, phone_number){
+    const query = `update User set phone_number='${new_password}' where phone_number='${phone_number}' and password='${old_password}';`
+    return new Promise((resolve, reject) => {
+        connection.query(query, (error, results) => {
+            if (error) {
+                reject(error)
+            } else {
+                console.log(results);
+                if (results) {
+                    resolve(results)
+                } else {
+                    reject(false)
+                }
+            }
+
+        })
+
+}
