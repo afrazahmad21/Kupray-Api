@@ -22,12 +22,19 @@ exports.verify_login = (connection,phone_number, password) => {
 
 }
 
-exports.add_user = (connection, body) => {
+exports.add_user = (object) => {
+    let connection = object.connection;
+    let body = object.body
     let prefered_language = body.prefered_language || "English";
     let device_type = body.device_type || "";
     let device_os_version = body.device_os_version || "";
     let device_other = body.device_other || "";
-    const query = `INSERT INTO User(username, phone_number, password, createdDateTime, ModiiedDateTime,prefered_language,device_type,device_os_version,device_other) VALUES ('${body.username}', '${body.phone_number}', '${body.password}', Now(), Now(),'${prefered_language}','${device_type}','${device_os_version}','${device_other}')`;
+    let device_id = body.device_id || "";
+    let user_credit = (body.user_credit? body.user_credit : 0);
+    let user_bonus = (body.user_bonus? body.user_bonus : 0);
+
+    const query = `INSERT INTO User(username, phone_number, password, createdDateTime, ModiiedDateTime,prefered_language,device_type,device_os_version,device_other, device_id, user_credit, user_bonus) VALUES ('${body.username}', '${body.phone_number}',
+     '${body.password}', Now(), Now(),'${prefered_language}','${device_type}','${device_os_version}','${device_other}', '${device_id}', '${user_credit}', '${user_bonus}')`;
 
     return new Promise((resolve, reject) => {
         connection.query(query, (error, results, fields) => {

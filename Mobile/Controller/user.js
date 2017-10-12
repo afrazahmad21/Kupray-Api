@@ -52,20 +52,20 @@ exports.add_user = (req, res) => {
                 Object.assign(response.user, user)
                 resolve(response)
             } else {
-
-                user_model.add_user(connection, req.body)
+                let object = {'connection' : connection, 'body': req.body}
+                user_model.add_user(object)
                     .then(user => {
-                        let response = UserSchema
-                        response.message = " User Added Successfully";
-                        Object.assign(response.user, user)
-                        resolve(response)
+                        resolve(object)
                     })
                     .catch(e => reject(e))
             }
         })
     };
-    let sendResponseBack = function (response) {
-        if (response) {
+    let sendResponseBack = function (user) {
+        if (user) {
+            let response = UserSchema
+            response.message = " User Added Successfully";
+            Object.assign(response.user, user)
             res.status(200).json(response)
 
         } else {
@@ -79,17 +79,17 @@ exports.add_user = (req, res) => {
     } else if (req.body.password.length > 7) {
         res.status(200).json({"meaage": "Password length must be <=7"})
     } else {
-
-        getUser(connection, null)
+        let object = {'connection' : connection, 'body' : req.body}
+        getUserWithOject(object)
             .then(addUser)
-            .then(connection, getUser)
+            .then(getUserWithOject)
             .then(sendResponseBack)
             .catch(e => {
                 res.status(400).json({
                     "error": true,
                     "message": "somethng went wrong",
                     "httpstatus": 400,
-                    "e": e.message
+                    "e": e
                 })
             })
     }
