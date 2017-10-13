@@ -7,7 +7,7 @@ const connection = require('./mysql')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(basic_auth("kupay","kupay"))
+
 
 //Mobile Routes
 app.use(mobile_routes)
@@ -31,6 +31,7 @@ app.use(function (req, res, next) {
     next()
 
 })
+app.use(basic_auth("kupay","kupay"))
 app.get('/',(req, res)=>{
     console.log("welcome to kupay API");
     res.status(200).json({"message": "welcome to kupray API"})
