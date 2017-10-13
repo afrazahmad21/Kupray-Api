@@ -28,6 +28,7 @@ app.use(function (req, res, next) {
     console.log(req.headers);
     console.log('-----------------')
     console.log(req.body)
+    next()
 
 })
 app.get('/',(req, res)=>{
