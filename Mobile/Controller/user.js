@@ -31,7 +31,7 @@ exports.verify_login = (req, res) => {
                     })
 
             } else {
-                res.status(200).json({"message": "User not verfied to Proceed", "httpstatus": 300})
+                res.status(200).json({"message": "Login failed. Incorrect Password", "httpstatus": 320})
             }
 
         }).catch((e) => {

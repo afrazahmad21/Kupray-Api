@@ -32,9 +32,11 @@ exports.add_user = (object) => {
     let device_id = body.device_id || "";
     let user_credit = (body.user_credit? body.user_credit : 0);
     let user_bonus = (body.user_bonus? body.user_bonus : 0);
+    let main_screen_image_name =  body.main_screen_image_name || "";
+    let main_screen_image_url = body.main_screen_image_url || "";
 
-    const query = `INSERT INTO User(username, phone_number, password, createdDateTime, ModiiedDateTime,prefered_language,device_type,device_os_version,device_other, device_id, user_credit, user_bonus) VALUES ('${body.username}', '${body.phone_number}',
-     '${body.password}', Now(), Now(),'${prefered_language}','${device_type}','${device_os_version}','${device_other}', '${device_id}', '${user_credit}', '${user_bonus}')`;
+    const query = `INSERT INTO User(username, phone_number, password, createdDateTime, ModiiedDateTime,prefered_language,device_type,device_os_version,device_other, device_id, user_credit, user_bonus,main_screen_image_name,main_screen_image_url) VALUES ('${body.username}', '${body.phone_number}',
+     '${body.password}', Now(), Now(),'${prefered_language}','${device_type}','${device_os_version}','${device_other}', '${device_id}', '${user_credit}', '${user_bonus}' , '${main_screen_image_name}', '${main_screen_image_url}')`;
 
     return new Promise((resolve, reject) => {
         connection.query(query, (error, results, fields) => {
@@ -122,7 +124,6 @@ exports.searchPhoneNumber = function (connection, phone_number) {
             if (err){
                 reject(err)
             }else {
-                console.log(results)
                 resolve(results)
             }
         })
