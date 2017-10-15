@@ -65,7 +65,7 @@ exports.add_user = (req, res) => {
         if (user) {
             let response = UserSchema
             response.message = " User Added Successfully";
-            Object.assign(response.user, user)
+            Object.assign(response.user, user[0])
             res.status(200).json(response)
 
         } else {
@@ -191,6 +191,26 @@ exports.updatePassword = function (req, res) {
                 "message": e,
                 "httpstatus": 400
             })
+        })
+
+
+}
+
+exports.searchPhoneNumber =  function (req ,res) {
+    let connection = req.app.get('connection')
+    user_model.searchPhoneNumber(connection, req.body.phone_number)
+        .then((user)=>{
+            if(user.length > 0){
+                let response = UserSchema
+                response.message = "You will receive password on your phone No.";
+                Object.assign(response.user, user[0])
+                res.status(200).json(response)
+            }else{
+                res.status(309).json({"error": false, "message": "Phone No not found in our records", "httpstatus": 309})
+            }
+
+        }).catch(function (e) {
+            res.status(400).json({"error": false, "message": e, "httpstatus": 301})
         })
 
 

@@ -23,4 +23,8 @@ route.post('/user/update/phonenumber',(req,res)=>{
     user_controller.updatePhoneNumber(req,res)
 
 })
+
+route.post('/user/forgot_password', (req, res)=>{
+    user_controller.searchPhoneNumber(req, res)
+})
 module.exports= route

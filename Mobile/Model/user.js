@@ -113,3 +113,18 @@ exports.updatePassword =  function(conection, body){
 
 })
 }
+
+exports.searchPhoneNumber = function (connection, phone_number) {
+    const query = `select * from User where phone_number = '${phone_number}'`
+
+    return new Promise((resolve, reject)=>{
+        connection.query(query, function (err, results, fields) {
+            if (err){
+                reject(err)
+            }else {
+                console.log(results)
+                resolve(results)
+            }
+        })
+    })
+}
