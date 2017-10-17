@@ -60,12 +60,14 @@ exports.add_user = (req, res) => {
 
     let addUser = function (user) {
         return new Promise((resolve, reject) => {
-            if (user.length>0) {
+            console.log("inside user", user)
+            if (user!== undefined && user.length>0) {
                 let response = UserSchema
-                response.message = " User Already Exists";
+                response.message = "User Already Exists";
                 response.httpstatus = 302;
                 Object.assign(response.user, user)
-                resolve(response)
+                res.status(302).json(response)
+                return
             } else {
                 let object = {'connection': connection, 'body': req.body}
                 user_model.add_user(object)

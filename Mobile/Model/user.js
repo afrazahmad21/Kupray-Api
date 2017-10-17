@@ -61,12 +61,13 @@ exports.getUser = function (connection,phone_number, password) {
 
     return new Promise((resolve, reject) => {
         connection.query(query, (error, results, fields) => {
+            console.log('inside get user', error, results)
             if (error) {
                 reject(error)
             } else {
                 console.log(results);
                 if (results) {
-                    resolve(results[0])
+                    resolve(results)
                 } else {
                     reject(false)
                 }
