@@ -35,7 +35,7 @@ exports.verify_login = (req, res) => {
                                 })
 
                         } else {
-                            res.status(200).json({
+                            res.status(320).json({
                                 "message": "Login failed. Incorrect phone number or Password",
                                 "httpstatus": 320
                             })
