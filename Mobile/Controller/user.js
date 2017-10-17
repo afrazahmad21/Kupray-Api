@@ -18,25 +18,40 @@ const user_model = require('../Model/user')
 exports.verify_login = (req, res) => {
     const connection = req.app.get('connection')
     //connection added
+    console.log(req.body)
+    let object = {'connection': connection, 'body': req.body}
+    user_model.searchPhoneNumber(object)
+        .then(user => {
+            if (user.length > 0) {
+                user_model.verify_login(connection, req.body.phone_number, req.body.password)
+                    .then((valid_user) => {
+                        if (valid_user) {
+                            user_model.getUser(connection, req.body.phone_number, req.body.password)
+                                .then(user => {
+                                    let response = UserSchema
+                                    response.message = " Sign in successfully";
+                                    Object.assign(response.user, user)
+                                    res.status(200).json(response)
+                                })
 
-    user_model.verify_login(connection, req.body.phone_number, req.body.password)
-        .then((valid_user) => {
-            if (valid_user) {
-                user_model.getUser(connection, req.body.phone_number, req.body.password)
-                    .then(user => {
-                        let response = UserSchema
-                        response.message = " Sign in successfully";
-                        Object.assign(response.user, user)
-                        res.status(200).json(response)
-                    })
+                        } else {
+                            res.status(200).json({
+                                "message": "Login failed. Incorrect phone number or Password",
+                                "httpstatus": 320
+                            })
+                        }
 
+                    }).catch((e) => {
+                    res.status(400).json({"message": "somethng went wrong", "error": e.meaage, "httpstats": 400})
+                })
             } else {
-                res.status(200).json({"message": "Login failed. Incorrect phone number or Password", "httpstatus": 320})
+                res.status(300).json({"message": "PhoneNumber Not Found", "httpstatus": 300})
             }
-
         }).catch((e) => {
+        console.log(e)
         res.status(400).json({"message": "somethng went wrong", "error": e.meaage, "httpstats": 400})
     })
+
 }
 
 exports.add_user = (req, res) => {
@@ -52,7 +67,7 @@ exports.add_user = (req, res) => {
                 Object.assign(response.user, user)
                 resolve(response)
             } else {
-                let object = {'connection' : connection, 'body': req.body}
+                let object = {'connection': connection, 'body': req.body}
                 user_model.add_user(object)
                     .then(user => {
                         resolve(object)
@@ -79,7 +94,7 @@ exports.add_user = (req, res) => {
     } else if (req.body.password.length > 7) {
         res.status(200).json({"meaage": "Password length must be <=7"})
     } else {
-        let object = {'connection' : connection, 'body' : req.body}
+        let object = {'connection': connection, 'body': req.body}
         getUserWithOject(object)
             .then(addUser)
             .then(getUserWithOject)
@@ -99,27 +114,27 @@ exports.add_user = (req, res) => {
 
 exports.updatePhoneNumber = function (req, res) {
     const connection = req.app.get('connection');
-    let update =  function(user){
-        return new Promise((resolve, reject)=>{
-            if (user){
-            user_model.updatePhoneNumber(connection, req.body)
-                .then(result=>resolve(result))
-                .catch(e => reject(e))
-            }else{
+    let update = function (user) {
+        return new Promise((resolve, reject) => {
+            if (user) {
+                user_model.updatePhoneNumber(connection, req.body)
+                    .then(result => resolve(result))
+                    .catch(e => reject(e))
+            } else {
                 reject("User Does not exists")
             }
         })
 
     }
-    let checkSuccess =  function (result) {
-        return new Promise((resolve ,reject)=>{
+    let checkSuccess = function (result) {
+        return new Promise((resolve, reject) => {
             console.log(result)
-            if (result){
-                req.body.phone_number= req.body.new_phone_number
-               let  object = {'connection': connection,'body':req.body }
+            if (result) {
+                req.body.phone_number = req.body.new_phone_number
+                let object = {'connection': connection, 'body': req.body}
                 resolve(object)
-            }else{
-                reject({"reason":"something went wrong"})
+            } else {
+                reject({"reason": "something went wrong"})
             }
         })
     }
@@ -130,47 +145,48 @@ exports.updatePhoneNumber = function (req, res) {
             Object.assign(response.user, user)
             res.status(200).json(response)
         } else {
-                res.status(200).json({"error": false, "message": "Something went wrong!", "httpstatus": 301})
+            res.status(200).json({"error": false, "message": "Something went wrong!", "httpstatus": 301})
         }
     }
-     getUser(connection,req.body, null)
-         .then(update)
-         .then(checkSuccess)
-         .then(getUserWithOject)
-         .then(sendResponseBack)
-         .catch(e => {
-                res.status(400).json({
-                    "error": true,
-                    "message": e,
-                    "httpstatus": 400
-                })
+    getUser(connection, req.body, null)
+        .then(update)
+        .then(checkSuccess)
+        .then(getUserWithOject)
+        .then(sendResponseBack)
+        .catch(e => {
+            res.status(400).json({
+                "error": true,
+                "message": e,
+                "httpstatus": 400
             })
+        })
 }
 
 exports.updatePassword = function (req, res) {
     let connection = req.app.get('connection')
-    req.body.password =  req.body.old_password
+    req.body.password = req.body.old_password
     let object = {'connection': connection, 'body': req.body}
 
-    let update =function (user) {
-        return new Promise((resolve, reject)=>{
-            if (user){
+    let update = function (user) {
+        return new Promise((resolve, reject) => {
+            if (user) {
                 user_model.updatePassword(connection, req.body)
-                    .then(result =>{
-                        if(result){
+                    .then(result => {
+                        if (result) {
                             user.password = req.body.new_password
                             resolve(user)
-                        }else {
+                        } else {
                             reject({"message": "Password could not be updated"})
                         }
                     })
 
-            }else {
+            } else {
                 reject({"message": "No User Found"})
             }
         })
 
     }
+
 
     let sendResponseBack = function (user) {
         if (user) {
@@ -196,29 +212,33 @@ exports.updatePassword = function (req, res) {
 
 }
 
-exports.searchPhoneNumber =  function (req ,res) {
+exports.searchPhoneNumber = function (req, res) {
     let connection = req.app.get('connection')
     user_model.searchPhoneNumber(connection, req.body.phone_number)
-        .then((user)=>{
-            if(user.length > 0){
+        .then((user) => {
+            if (user.length > 0) {
                 let response = UserSchema
                 response.message = "You will receive password on your phone No.";
                 Object.assign(response.user, user[0])
                 res.status(200).json(response)
-            }else{
-                res.status(309).json({"error": false, "message": "Phone No not found in our records", "httpstatus": 309})
+            } else {
+                res.status(309).json({
+                    "error": false,
+                    "message": "Phone No not found in our records",
+                    "httpstatus": 309
+                })
             }
 
         }).catch(function (e) {
-            res.status(400).json({"error": false, "message": e, "httpstatus": 301})
-        })
+        res.status(400).json({"error": false, "message": e, "httpstatus": 301})
+    })
 
 
 }
 
-let getUser = function (connection,body, response) {
-    if (!body.phone_number){
-        body.phone_number =  body.old_phone_number
+let getUser = function (connection, body, response) {
+    if (!body.phone_number) {
+        body.phone_number = body.old_phone_number
     }
 
     return new Promise((resolve, reject) => {
