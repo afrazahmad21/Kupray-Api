@@ -60,7 +60,7 @@ exports.add_user = (req, res) => {
 
     let addUser = function (user) {
         return new Promise((resolve, reject) => {
-            if (user) {
+            if (user.length>0) {
                 let response = UserSchema
                 response.message = " User Already Exists";
                 response.httpstatus = 302;
@@ -79,7 +79,8 @@ exports.add_user = (req, res) => {
     let sendResponseBack = function (user) {
         if (user) {
             let response = UserSchema
-            response.message = " User Added Successfully";
+            response.message = "User Added Successfully";
+            response.httpstatus = 200
             Object.assign(response.user, user[0])
             res.status(200).json(response)
 
