@@ -42,14 +42,14 @@ exports.verify_login = (req, res) => {
                         }
 
                     }).catch((e) => {
-                    res.status(400).json({"message": "somethng went wrong", "error": e.meaage, "httpstats": 400})
+                    res.status(400).json({"message": "somethng went wrong", "error": e.meaage, "httpstatus": 400})
                 })
             } else {
                 res.status(300).json({"message": "PhoneNumber Not Found", "httpstatus": 300})
             }
         }).catch((e) => {
         console.log(e)
-        res.status(400).json({"message": "somethng went wrong", "error": e.meaage, "httpstats": 400})
+        res.status(400).json({"message": "somethng went wrong", "error": e.meaage, "httpstatus": 400})
     })
 
 }
