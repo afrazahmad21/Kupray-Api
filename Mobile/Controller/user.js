@@ -46,7 +46,7 @@ exports.verify_login = (req, res) => {
                     res.status(400).json({"message": "somethng went wrong", "error": e.meaage, "httpstatus": 400})
                 })
             } else {
-                res.status(300).json({"message": "PhoneNumber Not Found", "httpstatus": 300})
+                res.status(200).json({"message": "PhoneNumber Not Found", "httpstatus": 300})
             }
         }).catch((e) => {
         console.log(e)
@@ -67,7 +67,7 @@ exports.add_user = (req, res) => {
                 response.message = "User Already Exists";
                 response.httpstatus = 302;
                 Object.assign(response.user, user)
-                res.status(302).json(response)
+                res.status(200).json(response)
                 return
             } else {
                 let object = {'connection': connection, 'body': req.body}
@@ -226,7 +226,7 @@ exports.searchPhoneNumber = function (req, res) {
                 Object.assign(response.user, user[0])
                 res.status(200).json(response)
             } else {
-                res.status(309).json({
+                res.status(200).json({
                     "error": false,
                     "message": "Phone No not found in our records",
                     "httpstatus": 309
