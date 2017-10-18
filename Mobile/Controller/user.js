@@ -30,7 +30,7 @@ exports.verify_login = (req, res) => {
                                 .then(user => {
                                     let response = UserSchema
                                     response.message = " Sign in successfully";
-                                    Object.assign(response.user, user)
+                                    Object.assign(response.user, user[0])
                                     res.status(200).json(response)
                                 })
 
