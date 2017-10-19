@@ -18,7 +18,7 @@ exports.checkBalance =  function (req, res) {
     let hash = ""
     Object.keys(params).forEach((key)=>{
         hash += params[key] + "|"
-    }
+    })
     hash += "HZaZzBjzHMrJWgjjZFnkz2XaneHh8w3EUXWjqecCg6Lv6qgSiy1AkB3SByD62UdD";
     console.log('before *********', hash)
     params['hash'] = md5(hash)
