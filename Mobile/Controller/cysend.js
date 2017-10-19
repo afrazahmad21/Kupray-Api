@@ -25,6 +25,6 @@ exports.checkBalance =  function (req, res) {
     // console.log('params', params)
     headers = cysend.api_headers
     request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
-        res.status(200).json({ 'http' : JSON.parse(http.body)})
+        res.status(200).json(JSON.parse(http.body))
     })
 }
