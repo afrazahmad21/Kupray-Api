@@ -19,8 +19,8 @@ exports.checkBalance =  function (req, res) {
     for (let key in Object.keys(params)){
         hash += params[key] + "|"
     }
+    hash += "afrazahmad";
     params['hash'] = md5(hash)
-    api_url = appendQuery(api_url, params)
     console.log('params', params)
     headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Content-Language': 'en-US'}
     request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
