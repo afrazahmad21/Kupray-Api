@@ -15,8 +15,8 @@ exports.checkBalance =  function (req, res) {
     }
 
     let hash = ""
-    for (value in Object.values(params)){
-        hash += value + "|"
+    for (value in Object.keys(params)){
+        hash += params[value] + "|"
     }
 
     params['hash'] = md5(hash)

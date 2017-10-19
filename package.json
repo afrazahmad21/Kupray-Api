@@ -20,6 +20,8 @@
     "basicauth-middleware": "^2.0.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.1",
-    "mysql": "^2.15.0"
+    "md5": "^2.2.1",
+    "mysql": "^2.15.0",
+    "request": "^2.83.0"
   }
 }
