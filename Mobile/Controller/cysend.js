@@ -19,12 +19,13 @@ exports.checkBalance =  function (req, res) {
     for (let key in Object.keys(params)){
         hash += params[key] + "|"
     }
-    hash += "afrazahmad";
+    hash += "HZaZzBjzHMrJWgjjZFnkz2XaneHh8w3EUXWjqecCg6Lv6qgSiy1AkB3SByD62UdD";
+    console.log('before', hash)
     params['hash'] = md5(hash)
     console.log('params', params)
     headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Content-Language': 'en-US'}
     request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
-        console.log(err, http, body)
-        res.status(200).json({'err': err, 'http' :http,'body': body})
+        console.log(http)
+        res.status(200).json({ 'http' :http})
     })
 }
