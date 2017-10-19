@@ -11,7 +11,8 @@ exports.checkBalance =  function (req, res) {
 
     const params = {
         'function': 'get_balance',
-        'username': api_username
+        'username': api_username,
+        'format': 'json'
     }
 
     let hash = ""
@@ -22,7 +23,7 @@ exports.checkBalance =  function (req, res) {
     params['hash'] = md5(hash)
     console.log('params', params)
     headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Content-Language': 'en-US'}
-    request({url: api_url, form:params, headers: headers}, function (err, http,body) {
+    request({url: api_url, form:params,qs:params, headers: headers}, function (err, http,body) {
         console.log(err, http, body)
         res.status(200).json({'err': err, 'http' :http,'body': body})
     })
