@@ -16,7 +16,7 @@ exports.checkBalance =  function (req, res) {
     }
 
     let hash = ""
-    for (let key in Object.keys(params)){
+    Object.keys(params).forEach((key)=>{
         hash += params[key] + "|"
     }
     hash += "HZaZzBjzHMrJWgjjZFnkz2XaneHh8w3EUXWjqecCg6Lv6qgSiy1AkB3SByD62UdD";
