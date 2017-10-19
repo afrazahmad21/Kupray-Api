@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/afrazahmad21/Kupray-Api#readme",
   "dependencies": {
+    "append-query": "^2.0.1",
     "basicauth-middleware": "^2.0.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.1",

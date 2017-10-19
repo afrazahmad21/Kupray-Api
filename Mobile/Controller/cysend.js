@@ -1,13 +1,13 @@
 /**
  * Created by Afraz on 10/19/2017.
  */
-
+var appendQuery = require('append-query')
 const md5 = require('md5');
 const request = require('request')
 
 exports.checkBalance =  function (req, res) {
     const api_username = "tW12YxFFGHmzx8vQjG5ZKwPRQTSQuFYK"
-    const api_url ="https://honeypot.cysend.ch/merchant_api/4.1"
+    let api_url ="https://honeypot.cysend.ch/merchant_api/4.1"
 
     const params = {
         'function': 'get_balance',
@@ -19,11 +19,11 @@ exports.checkBalance =  function (req, res) {
     for (let key in Object.keys(params)){
         hash += params[key] + "|"
     }
-
     params['hash'] = md5(hash)
+    api_url = appendQuery(api_url, params)
     console.log('params', params)
     headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Content-Language': 'en-US'}
-    request({url: api_url,qs:params, headers: headers}, function (err, http,body) {
+    request({url: api_url,form:params, headers: headers}, function (err, http,body) {
         console.log(err, http, body)
         res.status(200).json({'err': err, 'http' :http,'body': body})
     })
