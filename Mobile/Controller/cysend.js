@@ -60,7 +60,7 @@ exports.doPayment = function (req, res) {
 
 exports.get_countries = function (req, res) {
     const params = {
-        'function': 'get_product_countries ',
+        'function': 'get_product_countries',
         'username': cysend.api_username,
         'format': 'json'
     }
