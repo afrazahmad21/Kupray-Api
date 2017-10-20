@@ -73,7 +73,8 @@ exports.get_countries = function (req, res) {
     console.log('before *********', hash)
     params['hash'] = md5(hash)
     // console.log('params', params)
-    headers = cysend.api_headers
+    let headers = cysend.api_headers
+    let api_url =cysend.api_url
     request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
         res.status(200).json(JSON.parse(http.body))
     })
