@@ -9,5 +9,12 @@ route.get('/checkbalance',(req, res)=>{
     cysend_controller.checkBalance(req, res)
 })
 
+route.post('/paynet', (req, res)=>{
+    cysend_controller.doPayment(req, res)
+})
+
+route.get('/countries_list',(req, res)=>{
+    cysend_controller.get_countries(req, res)
+})
 module.exports = route
 

@@ -62,7 +62,7 @@ exports.add_user = (req, res) => {
     let addUser = function (user) {
         return new Promise((resolve, reject) => {
             console.log("inside user", user)
-            if (user!== undefined && user.length>0) {
+            if (user !== undefined && user.length > 0) {
                 let response = UserSchema
                 response.message = "User Already Exists";
                 response.httpstatus = 302;
@@ -240,28 +240,58 @@ exports.searchPhoneNumber = function (req, res) {
 
 }
 
-let getUser = function (connection, body, response) {
-    if (!body.phone_number) {
-        body.phone_number = body.old_phone_number
-    }
 
-    return new Promise((resolve, reject) => {
-        if (response) {
-            resolve(response)
-        } else {
+exports.getProfile = function (req, res) {
+    let connecton = req.app.get('connection')
+    let object = {
+        'connection': connecton,
+        'body': req.body
+    }
+    user_model.searchPhoneNumber(object)
+        .then(user => {
+            if (user.length > 0) {
+                let response = UserSchema
+                response.message = "You will receive password on your phone No.";
+                Object.assign(response.user, user[0])
+                res.status(200).json(response)
+            } else {
+                res.status(200).json({
+                    "error": false,
+                    "message": "Phone No not found in our records",
+                    "httpstatus": 309
+                })
+            }
+        }).catch(e => {
+        res.status(400).json({"error": false, "message": e, "httpstatus": 301})
+    })
+
+}
+
+
+    let getUser = function (connection, body, response) {
+        if (!body.phone_number) {
+            body.phone_number = body.old_phone_number
+        }
+
+        return new Promise((resolve, reject) => {
+            if (response) {
+                resolve(response)
+            } else {
+                user_model.getUser(connection, body.phone_number, body.password)
+                    .then(user => resolve(user))
+                    .catch(e => reject(e))
+            }
+
+        })
+    }
+    let getUserWithOject = function (object) {
+        let connection = object.connection
+        let body = object.body
+        return new Promise((resolve, reject) => {
             user_model.getUser(connection, body.phone_number, body.password)
                 .then(user => resolve(user))
                 .catch(e => reject(e))
-        }
+        })
+    }
 
-    })
-}
-let getUserWithOject = function (object) {
-    let connection = object.connection
-    let body = object.body
-    return new Promise((resolve, reject) => {
-        user_model.getUser(connection, body.phone_number, body.password)
-            .then(user => resolve(user))
-            .catch(e => reject(e))
-    })
-}
+
