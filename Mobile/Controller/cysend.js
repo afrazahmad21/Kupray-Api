@@ -148,14 +148,13 @@ let check_mobile = function (req, res) {
         hash += params[key] + "|"
     })
     hash += cysend.api_password;
-    console.log('before *********', hash)
+    // console.log('before *********', hash)
     params['hash'] = md5(hash)
     // console.log('params', params)
     let headers = cysend.api_headers
     let api_url =cysend.api_url
     return new Promise((resolve, reject)=>{
         request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
-            console.log(http)
             if (err){
                 reject(err)
             }else {
@@ -164,11 +163,11 @@ let check_mobile = function (req, res) {
                 console.log()
                 console.log()
                 console.log(http.body)
-                if( http.body.response.status == "OK"){
+                // if( http.body.response.status == "OK"){
                     resolve(http.body)
-                }else {
-                    reject({'message': http.body.status})
-                }
+                // }else {
+                //     reject({'message': http.body.status})
+                // }
 
             }
         })
