@@ -130,7 +130,7 @@ exports.getProducts = function (req, res) {
 exports.checkMobile = function (req, res) {
     let connection = req.app.get('connection')
     const params = {
-        'function': 'check_mobile ',
+        'function': 'check_mobile',
         'username': cysend.api_username,
         'format': 'json',
         'mobile': req.body.phone_number
