@@ -159,8 +159,12 @@ let check_mobile = function (req, res) {
             if (err){
                 reject(err)
             }else {
-                console.log(http.body.respose)
-                if( http.body.respose.status == "OK"){
+                console.log()
+                console.log()
+                console.log()
+                console.log()
+                console.log(http.body)
+                if( http.body.response.status == "OK"){
                     resolve(http.body)
                 }else {
                     reject({'message': http.body.status})
