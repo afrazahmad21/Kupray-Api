@@ -183,7 +183,6 @@ exports.instantTransfer = function (req, res) {
     check_mobile(req, res)
         .then((response)=>{
             let product_id = response['product_id']
-            console.log('****************** product_id =', product_id)
             const params = {
                 'function': 'instant_transfer',
                 'username': cysend.api_username,
@@ -201,14 +200,12 @@ exports.instantTransfer = function (req, res) {
                 hash += params[key] + "|"
             })
             hash += cysend.api_password;
-            console.log('before *********', hash)
+            // console.log('before *********', hash)
             params['hash'] = md5(hash)
-            // console.log('params', params)
+            console.log('params', params)
             let headers = cysend.api_headers
             let api_url =cysend.api_url
 
-
-            console.log(product_id)
             request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
                 console.log(http)
                 res.status(200).json(JSON.parse(http.body))
