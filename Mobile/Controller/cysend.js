@@ -6,6 +6,7 @@ const md5 = require('md5');
 const request = require('request')
 const cysend = require('../../cysend')
 const user_model = require('../Model/user')
+const cy_model = require('../Model/cysend')
 exports.checkBalance =  function (req, res) {
     let api_url =cysend.api_url
 
@@ -59,6 +60,7 @@ exports.doPayment = function (req, res) {
 
 
 exports.get_countries = function (req, res) {
+    let connection = req.app.get('connection')
     const params = {
         'function': 'get_product_countries',
         'username': cysend.api_username,
@@ -77,8 +79,81 @@ exports.get_countries = function (req, res) {
     let api_url =cysend.api_url
     request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
         res.status(200).json(JSON.parse(http.body))
+        if(http.body.response.status =="OK"){
+            cy_model.saveCountriesInDb(connection, http.body.response.countries)
+                .then((result)=>{
+                    res.status(200).json({'message': 'saved in db successfully', 'httpstatus': 200})
+                }).catch(e =>{
+                    res.status(400).json({'message': e, 'httpstatus': 400})
+            })
+
+        }
     })
 
 
 }
+
+
+exports.getProducts = function (req, res) {
+    let connection = req.app.get('connection')
+    const params = {
+        'function': 'get_product_countries',
+        'username': cysend.api_username,
+        'format': 'json'
+    }
+
+    let hash = ""
+    Object.keys(params).forEach((key)=>{
+        hash += params[key] + "|"
+    })
+    hash += cysend.api_password;
+    console.log('before *********', hash)
+    params['hash'] = md5(hash)
+    // console.log('params', params)
+    let headers = cysend.api_headers
+    let api_url =cysend.api_url
+    request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
+        res.status(200).json(JSON.parse(http.body))
+        if(http.body.response.status =="OK"){
+            cy_model.saveCountriesInDb(connection, http.body.response.countries)
+                .then((result)=>{
+                    res.status(200).json({'message': 'saved in db successfully', 'httpstatus': 200})
+                }).catch(e =>{
+                res.status(400).json({'message': e, 'httpstatus': 400})
+            })
+
+        }
+    })
+
+}
+
+exports.checkMobile = function (req, res) {
+    let connection = req.app.get('connection')
+    const params = {
+        'function': 'check_mobile ',
+        'username': cysend.api_username,
+        'format': 'json',
+        'mobile': req.body.phone_number
+    }
+
+    let hash = ""
+    Object.keys(params).forEach((key)=>{
+        hash += params[key] + "|"
+    })
+    hash += cysend.api_password;
+    console.log('before *********', hash)
+    params['hash'] = md5(hash)
+    // console.log('params', params)
+    let headers = cysend.api_headers
+    let api_url =cysend.api_url
+    request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
+        console.log(http)
+        res.status(200).json(JSON.parse(http.body))
+    })
+
+}
+
+
+
+
 

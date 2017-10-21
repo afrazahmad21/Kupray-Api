@@ -16,5 +16,8 @@ route.post('/paynet', (req, res)=>{
 route.get('/countries_list',(req, res)=>{
     cysend_controller.get_countries(req, res)
 })
+route.post('/cysend/check_mobile', (req, res)=>{
+    cysend_controller.checkMobile(req, res)
+})
 module.exports = route
 
