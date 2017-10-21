@@ -128,6 +128,13 @@ exports.getProducts = function (req, res) {
 }
 
 exports.checkMobile = function (req, res) {
+    check_mobile(req, res)
+        .then((response)=>{
+            res.status(200).json({'response': response})
+        })
+}
+
+let check_mobile = function (req, res) {
     let connection = req.app.get('connection')
     const params = {
         'function': 'check_mobile',
@@ -146,10 +153,68 @@ exports.checkMobile = function (req, res) {
     // console.log('params', params)
     let headers = cysend.api_headers
     let api_url =cysend.api_url
-    request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
-        console.log(http)
-        res.status(200).json(JSON.parse(http.body))
+    return new Promise((resolve, reject)=>{
+        request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
+            console.log(http)
+            if (err){
+                reject(err)
+            }else {
+                console.log(http.body.respose)
+                if( http.body.respose.status == "OK"){
+                    resolve(http.body)
+                }else {
+                    reject({'message': http.body.status})
+                }
+
+            }
+        })
+
     })
+
+}
+
+
+exports.instantTransfer = function (req, res) {
+    let connection = req.app.get('connection')
+
+    check_mobile(req, res)
+        .then((response)=>{
+            let product_id = response['product_id']
+            console.log('****************** product_id =', product_id)
+            const params = {
+                'function': 'instant_transfer',
+                'username': cysend.api_username,
+                'format': 'json',
+                'product': product_id,
+                'mobile': req.body.phone_number,
+                'beneficiary_account':'',
+                'value': req.body.amount,
+                'sms_receipt':'no',
+                'tid': 'test_tid3',
+                'sender_mobile':'+923284829922'
+            }
+
+            let hash = ""
+            Object.keys(params).forEach((key)=>{
+                hash += params[key] + "|"
+            })
+            hash += cysend.api_password;
+            console.log('before *********', hash)
+            params['hash'] = md5(hash)
+            // console.log('params', params)
+            let headers = cysend.api_headers
+            let api_url =cysend.api_url
+
+
+            console.log(product_id)
+            request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
+                console.log(http)
+                res.status(200).json(JSON.parse(http.body))
+            })
+        }).catch(e=>{
+        res.status(200).json({"message": e, "httpstatus": 400})
+    })
+
 
 }
 

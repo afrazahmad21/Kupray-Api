@@ -19,5 +19,9 @@ route.get('/countries_list',(req, res)=>{
 route.post('/cysend/check_mobile', (req, res)=>{
     cysend_controller.checkMobile(req, res)
 })
+
+route.post('/cysend/instantTransfer', (req, res)=>{
+    cysend_controller.instantTransfer(req, res)
+})
 module.exports = route
 
