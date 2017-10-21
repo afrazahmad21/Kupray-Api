@@ -130,7 +130,7 @@ exports.getProducts = function (req, res) {
 exports.checkMobile = function (req, res) {
     check_mobile(req, res)
         .then((response)=>{
-            res.status(200).json({'response': response})
+            res.status(200).json(JSON.parse(response))
         })
 }
 
