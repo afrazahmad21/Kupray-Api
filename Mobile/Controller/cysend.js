@@ -182,6 +182,8 @@ exports.instantTransfer = function (req, res) {
 
     check_mobile(req, res)
         .then((response)=>{
+            console.log(response)
+            response = JSON.parse(response)
             let product_id = response['product_id']
             const params = {
                 'function': 'instant_transfer',
