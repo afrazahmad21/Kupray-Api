@@ -207,7 +207,7 @@ exports.instantTransfer = function (req, res) {
             let api_url =cysend.api_url
 
             request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
-                console.log(http)
+                // console.log(http)
                 res.status(200).json(JSON.parse(http.body))
             })
         }).catch(e=>{
