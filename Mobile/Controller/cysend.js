@@ -182,9 +182,9 @@ exports.instantTransfer = function (req, res) {
 
     check_mobile(req, res)
         .then((response)=>{
-            console.log(response)
+            console.log("dsdsdsds response ",response)
             response = JSON.parse(response)
-            let product_id = response['product_id']
+            let product_id = response.response.product_id
             const params = {
                 'function': 'instant_transfer',
                 'username': cysend.api_username,
