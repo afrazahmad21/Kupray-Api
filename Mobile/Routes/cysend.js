@@ -23,5 +23,8 @@ route.post('/cysend/check_mobile', (req, res)=>{
 route.post('/cysend/instantTransfer', (req, res)=>{
     cysend_controller.instantTransfer(req, res)
 })
+route.post('/cysend/checkStatus', (req, res)=>{
+    cysend_controller.checkTransferStatus(req, res)
+})
 module.exports = route
 

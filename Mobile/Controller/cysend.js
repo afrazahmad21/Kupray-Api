@@ -237,6 +237,37 @@ exports.instantTransfer = function (req, res) {
 }
 
 
+exports.checkTransferStatus = function (req, res) {
+    let connection = req.app.get('connection')
+    const params = {
+        'function': 'transfer_status ',
+        'username': cysend.api_username,
+        'format': 'json',
+        'mobile': req.body.phone_number,
+        'cysend_tid': req.body.cysend_tid,
+        'tid': req.body.tid
+    }
+
+    let hash = ""
+    Object.keys(params).forEach((key) => {
+        hash += params[key] + "|"
+    })
+    hash += cysend.api_password;
+    // console.log('before *********', hash)
+    params['hash'] = md5(hash)
+    // console.log('params', params)
+    let headers = cysend.api_headers
+    let api_url = cysend.api_url
+    return new Promise((resolve, reject) => {
+        request({url: api_url, method: 'POST', form: params, headers: headers}, function (err, http, body) {
+            res.status(200).json(JSON.parse(http.body))
+        })
+
+    })
+
+}
+
+
 
 
 
