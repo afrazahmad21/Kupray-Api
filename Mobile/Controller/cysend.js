@@ -192,12 +192,12 @@ exports.instantTransfer = function (req, res) {
             let product_id = response.response.product_id
             let value = parseFloat(req.body.amount)
             let user_currency = response['response']['product_local_currency']
-            if (user_currency == "KGS"){
-                value = value/won_to_kgz
-            }else if (user_currency == "RUB"){
-                value = value/ won_to_ruble
-            }else if (user_currency == "USD"){
-                value = value/won_to_usd
+            if (user_currency == "KGS") {
+                value = value / won_to_kgz
+            } else if (user_currency == "RUB") {
+                value = value / won_to_ruble
+            } else if (user_currency == "USD") {
+                value = value / won_to_usd
             }
             value = value.toFixed(0)
 
@@ -227,8 +227,10 @@ exports.instantTransfer = function (req, res) {
 
             request({url: api_url, method: 'POST', form: params, headers: headers}, function (err, http, body) {
                 tosend = JSON.parse(http.body)
-                if (tosend['response']['status'] === "PROCESSING"){
+                if (tosend['response']['status'] === "PROCESSING") {
                     tosend['httpstatus'] = 210
+                } else if (tosend['response']['status'] === "ERROR") {
+                    tosend['httpstatus'] = 211
                 }
                 res.status(200).json(tosend)
             })
