@@ -240,7 +240,7 @@ exports.instantTransfer = function (req, res) {
 exports.checkTransferStatus = function (req, res) {
     let connection = req.app.get('connection')
     const params = {
-        'function': 'transfer_status ',
+        'function': 'transfer_status',
         'username': cysend.api_username,
         'format': 'json',
         'cysend_tid': req.body.cysend_tid,
