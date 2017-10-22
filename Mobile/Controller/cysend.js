@@ -194,9 +194,9 @@ exports.instantTransfer = function (req, res) {
         .then((response) => {
             console.log("dsdsdsds response ", response)
             response = JSON.parse(response)
-            if (req.body.amount < response['ranges']['0']['range_min']) {
+            if (req.body.amount < response['response']['ranges']['0']['range_min']) {
                 res.status(200).json({'message': 'Amount is less than Minimum range', 'httpstatus': 321})
-            } else if (req.body.amount > response['ranges']['0']['range_max']) {
+            } else if (req.body.amount > response['response']['ranges']['0']['range_max']) {
                 res.status(200).json({'message': 'Amount is greater than Maximum range', 'httpstatus': 322})
             } else {
                 let product_id = response.response.product_id
@@ -207,7 +207,7 @@ exports.instantTransfer = function (req, res) {
                     'product': product_id,
                     'beneficiary_account': req.body.phone_number,
                     'value': req.body.amount,
-                    'sms_receipt': 'no',
+                    'sms_receipt': 'yes',
                     'tid': uuidv1(),
                     'sender_mobile': '+923284829922'
                 }
