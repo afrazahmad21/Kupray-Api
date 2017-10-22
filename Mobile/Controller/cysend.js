@@ -2,7 +2,7 @@
  * Created by Afraz on 10/19/2017.
  */
 var appendQuery = require('append-query')
-const uuidv1 = require('uuid/v1')
+var uniqid = require('uniqid');
 const md5 = require('md5');
 const request = require('request')
 const cysend = require('../../cysend')
@@ -196,16 +196,16 @@ exports.instantTransfer = function (req, res) {
             //     let max = response['response']['ranges']['0']['range_max']
             //     res.status(200).json({'message': 'Amount is greater than Maximum range', 'httpstatus': 322, 'max_rage':max, 'currency': response['response']['product_local_currency']})
             // } else {
-                let product_id = response.response.product_id
-                const params = {
-                    'function': 'instant_transfer',
+            let product_id = response.response.product_id
+            const params = {
+                'function': 'instant_transfer',
                     'username': cysend.api_username,
                     'format': 'json',
                     'product': product_id,
                     'beneficiary_account': req.body.phone_number,
                     'value': req.body.amount,
                     'sms_receipt': 'yes',
-                    'tid': uuidv1(),
+                    'tid': uniqid(),
                     'sender_mobile': '+923284829922'
                 }
 
