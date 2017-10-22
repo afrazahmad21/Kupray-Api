@@ -232,6 +232,7 @@ exports.instantTransfer = function (req, res) {
                 } else if (tosend['response']['status'] === "ERROR") {
                     tosend['response']['httpstatus'] = 211
                 }
+                console.log(tosend['response'])
                 res.status(200).json(tosend['response'])
             })
 
