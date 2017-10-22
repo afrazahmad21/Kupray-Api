@@ -203,7 +203,7 @@ exports.instantTransfer = function (req, res) {
                     'format': 'json',
                     'product': product_id,
                     'beneficiary_account': req.body.phone_number,
-                    'value': parseFloat(req.body.amount).toFixed( 2 )+"",
+                    'value': parseFloat(req.body.amount).toFixed( 0 )+"",
                     'sms_receipt': 'yes',
                     'tid': uniqid(),
                     'sender_mobile': '+923284829922'
