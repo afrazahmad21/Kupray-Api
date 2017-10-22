@@ -184,47 +184,54 @@ exports.instantTransfer = function (req, res) {
     if (req.body.currency == "WON") {
         req.body.amount = parseInt(req.body.amount) / dollar_to_won + ""
     }
-    console.log("amountttttttttttttt" , req.body.amount)
+    console.log("amountttttttttttttt", req.body.amount)
     check_mobile(req, res)
         .then((response) => {
+            let won_to_ruble = 19.71
+            let won_to_kgz = 10.75
+            let won_to_usd = 1132.85
             console.log("dsdsdsds response ", response)
             response = JSON.parse(response)
-            // if (false)req.body.amount < response['response']['ranges']['0']['range_min']) {
-            //     let range = response['response']['ranges']['0']['range_min']
-            //     res.status(200).json({'message': 'Amount is less than Minimum range', 'httpstatus': 321,'min_range':range, 'currency': response['response']['product_local_currency']})
-            // } else if (req.body.amount > response['response']['ranges']['0']['range_max']) {
-            //     let max = response['response']['ranges']['0']['range_max']
-            //     res.status(200).json({'message': 'Amount is greater than Maximum range', 'httpstatus': 322, 'max_rage':max, 'currency': response['response']['product_local_currency']})
-            // } else {
             let product_id = response.response.product_id
-            let value = parseFloat(req.body.amount).toFixed( 0 )
+            let value = parseFloat(req.body.amount)
+            let user_currency = response['response']['product_local_currency']
+            if (user_currency == "KGS"){
+                value = value/won_to_kgz
+            }else if (user_currency == "RUB"){
+                value = value/ won_to_ruble
+            }else if (user_currency == "USD"){
+                value = value/won_to_usd
+            }
+            value = value.toFixed(0)
+
+
             const params = {
                 'function': 'instant_transfer',
-                    'username': cysend.api_username,
-                    'format': 'json',
-                    'product': product_id,
-                    'beneficiary_account': req.body.phone_number,
-                    'value': value,
-                    'sms_receipt': 'yes',
-                    'tid': uniqid(),
-                    'sender_mobile': '+923284829922'
-                }
+                'username': cysend.api_username,
+                'format': 'json',
+                'product': product_id,
+                'beneficiary_account': req.body.phone_number,
+                'value': value,
+                'sms_receipt': 'yes',
+                'tid': uniqid(),
+                'sender_mobile': '+923284829922'
+            }
 
-                let hash = ""
-                Object.keys(params).forEach((key) => {
-                    hash += params[key] + "|"
-                })
-                hash += cysend.api_password;
-                // console.log('before *********', hash)
-                params['hash'] = md5(hash)
-                console.log('params', params)
-                let headers = cysend.api_headers
-                let api_url = cysend.api_url
+            let hash = ""
+            Object.keys(params).forEach((key) => {
+                hash += params[key] + "|"
+            })
+            hash += cysend.api_password;
+            // console.log('before *********', hash)
+            params['hash'] = md5(hash)
+            console.log('params', params)
+            let headers = cysend.api_headers
+            let api_url = cysend.api_url
 
-                request({url: api_url, method: 'POST', form: params, headers: headers}, function (err, http, body) {
+            request({url: api_url, method: 'POST', form: params, headers: headers}, function (err, http, body) {
 
-                    res.status(200).json(JSON.parse(http.body))
-                })
+                res.status(200).json(JSON.parse(http.body))
+            })
 
             // }
 
