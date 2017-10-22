@@ -203,7 +203,7 @@ exports.instantTransfer = function (req, res) {
                     'format': 'json',
                     'product': product_id,
                     'beneficiary_account': req.body.phone_number,
-                    'value': req.body.amount,
+                    'value': parseFloat(req.body.amount),
                     'sms_receipt': 'yes',
                     'tid': uniqid(),
                     'sender_mobile': '+923284829922'
@@ -221,7 +221,7 @@ exports.instantTransfer = function (req, res) {
                 let api_url = cysend.api_url
 
                 request({url: api_url, method: 'POST', form: params, headers: headers}, function (err, http, body) {
-                    // console.log(http)
+
                     res.status(200).json(JSON.parse(http.body))
                 }).catch(e => {
                     res.status(200).json({"message": e, "httpstatus": 400})
