@@ -197,13 +197,14 @@ exports.instantTransfer = function (req, res) {
             //     res.status(200).json({'message': 'Amount is greater than Maximum range', 'httpstatus': 322, 'max_rage':max, 'currency': response['response']['product_local_currency']})
             // } else {
             let product_id = response.response.product_id
+            let value = parseFloat(req.body.amount).toFixed( 0 )+""
             const params = {
                 'function': 'instant_transfer',
                     'username': cysend.api_username,
                     'format': 'json',
                     'product': product_id,
                     'beneficiary_account': req.body.phone_number,
-                    'value': parseFloat(req.body.amount).toFixed( 0 )+"",
+                    'value': value,
                     'sms_receipt': 'yes',
                     'tid': uniqid(),
                     'sender_mobile': '+923284829922'
