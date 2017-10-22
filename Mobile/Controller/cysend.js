@@ -243,7 +243,6 @@ exports.checkTransferStatus = function (req, res) {
         'function': 'transfer_status ',
         'username': cysend.api_username,
         'format': 'json',
-        'mobile': req.body.phone_number,
         'cysend_tid': req.body.cysend_tid,
         'tid': req.body.tid
     }
