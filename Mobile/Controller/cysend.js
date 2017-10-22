@@ -182,7 +182,7 @@ exports.instantTransfer = function (req, res) {
     let connection = req.app.get('connection');
     let dollar_to_won = 1132.70;
 
-    if (!req.body.amount || !req.body.currency || !req.body.phone_nubmer || !req.body.userid) {
+    if (!req.body.amount || !req.body.currency || !req.body.phone_number || !req.body.userid) {
         res.status(400).json({"message": "Required field error", "httpstatus": 300})
         return
     }
