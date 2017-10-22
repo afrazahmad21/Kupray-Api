@@ -184,18 +184,18 @@ exports.instantTransfer = function (req, res) {
     if (req.body.currency == "WON") {
         req.body.amount = parseInt(req.body.amount) / dollar_to_won + ""
     }
-
+    console.log("amountttttttttttttt" , req.body.amount)
     check_mobile(req, res)
         .then((response) => {
             console.log("dsdsdsds response ", response)
             response = JSON.parse(response)
-            if (req.body.amount < response['response']['ranges']['0']['range_min']) {
-                let range = response['response']['ranges']['0']['range_min']
-                res.status(200).json({'message': 'Amount is less than Minimum range', 'httpstatus': 321,'min_range':range, 'currency': response['response']['product_local_currency']})
-            } else if (req.body.amount > response['response']['ranges']['0']['range_max']) {
-                let max = response['response']['ranges']['0']['range_max']
-                res.status(200).json({'message': 'Amount is greater than Maximum range', 'httpstatus': 322, 'max_rage':max, 'currency': response['response']['product_local_currency']})
-            } else {
+            // if (false)req.body.amount < response['response']['ranges']['0']['range_min']) {
+            //     let range = response['response']['ranges']['0']['range_min']
+            //     res.status(200).json({'message': 'Amount is less than Minimum range', 'httpstatus': 321,'min_range':range, 'currency': response['response']['product_local_currency']})
+            // } else if (req.body.amount > response['response']['ranges']['0']['range_max']) {
+            //     let max = response['response']['ranges']['0']['range_max']
+            //     res.status(200).json({'message': 'Amount is greater than Maximum range', 'httpstatus': 322, 'max_rage':max, 'currency': response['response']['product_local_currency']})
+            // } else {
                 let product_id = response.response.product_id
                 const params = {
                     'function': 'instant_transfer',
@@ -227,7 +227,7 @@ exports.instantTransfer = function (req, res) {
                     res.status(200).json({"message": e, "httpstatus": 400})
                 })
 
-            }
+            // }
 
         })
 
