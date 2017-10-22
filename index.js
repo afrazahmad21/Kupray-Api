@@ -11,6 +11,7 @@ app.use(bodyParser.json())
 
 //Mobile Routes
 app.use(mobile_routes)
+app.set('view engine', 'ejs')
 app.set('connection', connection)
 const port = 80
 app.listen(port, function(err){

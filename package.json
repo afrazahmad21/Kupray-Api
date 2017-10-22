@@ -20,6 +20,7 @@
     "append-query": "^2.0.1",
     "basicauth-middleware": "^2.0.0",
     "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
     "express": "^4.16.1",
     "md5": "^2.2.1",
     "mysql": "^2.15.0",

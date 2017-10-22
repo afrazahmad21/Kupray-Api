@@ -159,11 +159,6 @@ let check_mobile = function (req, res) {
             if (err) {
                 reject(err)
             } else {
-                console.log()
-                console.log()
-                console.log()
-                console.log()
-                console.log(http.body)
                 // if( http.body.response.status == "OK"){
                 resolve(http.body)
                 // }else {
@@ -195,9 +190,11 @@ exports.instantTransfer = function (req, res) {
             console.log("dsdsdsds response ", response)
             response = JSON.parse(response)
             if (req.body.amount < response['response']['ranges']['0']['range_min']) {
-                res.status(200).json({'message': 'Amount is less than Minimum range', 'httpstatus': 321})
+                let range = response['response']['ranges']['0']['range_min']
+                res.status(200).json({'message': 'Amount is less than Minimum range', 'httpstatus': 321,'min_range':range, 'currency': response['response']['product_local_currency']})
             } else if (req.body.amount > response['response']['ranges']['0']['range_max']) {
-                res.status(200).json({'message': 'Amount is greater than Maximum range', 'httpstatus': 322})
+                let max = response['response']['ranges']['0']['range_max']
+                res.status(200).json({'message': 'Amount is greater than Maximum range', 'httpstatus': 322, 'max_rage':max, 'currency': response['response']['product_local_currency']})
             } else {
                 let product_id = response.response.product_id
                 const params = {
