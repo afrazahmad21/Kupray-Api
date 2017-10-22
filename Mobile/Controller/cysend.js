@@ -2,13 +2,14 @@
  * Created by Afraz on 10/19/2017.
  */
 var appendQuery = require('append-query')
+const uuidv1 = require('uuid/v1')
 const md5 = require('md5');
 const request = require('request')
 const cysend = require('../../cysend')
 const user_model = require('../Model/user')
 const cy_model = require('../Model/cysend')
-exports.checkBalance =  function (req, res) {
-    let api_url =cysend.api_url
+exports.checkBalance = function (req, res) {
+    let api_url = cysend.api_url
 
     const params = {
         'function': 'get_balance',
@@ -17,7 +18,7 @@ exports.checkBalance =  function (req, res) {
     }
 
     let hash = ""
-    Object.keys(params).forEach((key)=>{
+    Object.keys(params).forEach((key) => {
         hash += params[key] + "|"
     })
     hash += cysend.api_password;
@@ -25,7 +26,7 @@ exports.checkBalance =  function (req, res) {
     params['hash'] = md5(hash)
     // console.log('params', params)
     headers = cysend.api_headers
-    request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
+    request({url: api_url, method: 'POST', form: params, headers: headers}, function (err, http, body) {
         res.status(200).json(JSON.parse(http.body))
     })
 }
@@ -38,19 +39,19 @@ exports.doPayment = function (req, res) {
     let currency = req.body.currency;
     let dollar_to_won = 1132.70;
     let object = {'connection': req.app.get('connection'), 'body': req.body}
-    if (!phone_number || !userid || !country || !amount ||!currency){
+    if (!phone_number || !userid || !country || !amount || !currency) {
         res.status(200).json({'message': 'Required field error', 'httstatus': 400})
-    }else {
+    } else {
         user_model.searchPhoneNumber(object)
-            .then((user)=>{
-                if(user.length >0){
-                    if(currency === 'WON'){
-                        amount = amount/ dollar_to_won;
+            .then((user) => {
+                if (user.length > 0) {
+                    if (currency === 'WON') {
+                        amount = amount / dollar_to_won;
                         console.log(amount)
                     }
                     res.status(200).json({'message': 'Transacyion processed succssfully', 'httpstatus': 200})
-                }else{
-                    res.status(200).json({'message': 'Phone No not found in our records', 'httpstatus':309})
+                } else {
+                    res.status(200).json({'message': 'Phone No not found in our records', 'httpstatus': 309})
                 }
             })
     }
@@ -68,7 +69,7 @@ exports.get_countries = function (req, res) {
     }
 
     let hash = ""
-    Object.keys(params).forEach((key)=>{
+    Object.keys(params).forEach((key) => {
         hash += params[key] + "|"
     })
     hash += cysend.api_password;
@@ -76,15 +77,15 @@ exports.get_countries = function (req, res) {
     params['hash'] = md5(hash)
     // console.log('params', params)
     let headers = cysend.api_headers
-    let api_url =cysend.api_url
-    request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
+    let api_url = cysend.api_url
+    request({url: api_url, method: 'POST', form: params, headers: headers}, function (err, http, body) {
         res.status(200).json(JSON.parse(http.body))
-        if(http.body.response.status =="OK"){
+        if (http.body.response.status == "OK") {
             cy_model.saveCountriesInDb(connection, http.body.response.countries)
-                .then((result)=>{
+                .then((result) => {
                     res.status(200).json({'message': 'saved in db successfully', 'httpstatus': 200})
-                }).catch(e =>{
-                    res.status(400).json({'message': e, 'httpstatus': 400})
+                }).catch(e => {
+                res.status(400).json({'message': e, 'httpstatus': 400})
             })
 
         }
@@ -103,7 +104,7 @@ exports.getProducts = function (req, res) {
     }
 
     let hash = ""
-    Object.keys(params).forEach((key)=>{
+    Object.keys(params).forEach((key) => {
         hash += params[key] + "|"
     })
     hash += cysend.api_password;
@@ -111,14 +112,14 @@ exports.getProducts = function (req, res) {
     params['hash'] = md5(hash)
     // console.log('params', params)
     let headers = cysend.api_headers
-    let api_url =cysend.api_url
-    request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
+    let api_url = cysend.api_url
+    request({url: api_url, method: 'POST', form: params, headers: headers}, function (err, http, body) {
         res.status(200).json(JSON.parse(http.body))
-        if(http.body.response.status =="OK"){
+        if (http.body.response.status == "OK") {
             cy_model.saveCountriesInDb(connection, http.body.response.countries)
-                .then((result)=>{
+                .then((result) => {
                     res.status(200).json({'message': 'saved in db successfully', 'httpstatus': 200})
-                }).catch(e =>{
+                }).catch(e => {
                 res.status(400).json({'message': e, 'httpstatus': 400})
             })
 
@@ -129,7 +130,7 @@ exports.getProducts = function (req, res) {
 
 exports.checkMobile = function (req, res) {
     check_mobile(req, res)
-        .then((response)=>{
+        .then((response) => {
             res.status(200).json(JSON.parse(response))
         })
 }
@@ -144,7 +145,7 @@ let check_mobile = function (req, res) {
     }
 
     let hash = ""
-    Object.keys(params).forEach((key)=>{
+    Object.keys(params).forEach((key) => {
         hash += params[key] + "|"
     })
     hash += cysend.api_password;
@@ -152,19 +153,19 @@ let check_mobile = function (req, res) {
     params['hash'] = md5(hash)
     // console.log('params', params)
     let headers = cysend.api_headers
-    let api_url =cysend.api_url
-    return new Promise((resolve, reject)=>{
-        request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
-            if (err){
+    let api_url = cysend.api_url
+    return new Promise((resolve, reject) => {
+        request({url: api_url, method: 'POST', form: params, headers: headers}, function (err, http, body) {
+            if (err) {
                 reject(err)
-            }else {
+            } else {
                 console.log()
                 console.log()
                 console.log()
                 console.log()
                 console.log(http.body)
                 // if( http.body.response.status == "OK"){
-                    resolve(http.body)
+                resolve(http.body)
                 // }else {
                 //     reject({'message': http.body.status})
                 // }
@@ -178,44 +179,60 @@ let check_mobile = function (req, res) {
 
 
 exports.instantTransfer = function (req, res) {
-    let connection = req.app.get('connection')
+    let connection = req.app.get('connection');
+    let dollar_to_won = 1132.70;
+
+    if (!req.body.amount || !req.body.currency || !req.body.phone_nubmer || !req.body.userid) {
+        res.status(400).json({"message": "Required field error", "httpstatus": 300})
+        return
+    }
+    if (req.body.currency == "WON") {
+        req.body.amount = parseInt(req.body.amount) / dollar_to_won + ""
+    }
 
     check_mobile(req, res)
-        .then((response)=>{
-            console.log("dsdsdsds response ",response)
+        .then((response) => {
+            console.log("dsdsdsds response ", response)
             response = JSON.parse(response)
-            let product_id = response.response.product_id
-            const params = {
-                'function': 'instant_transfer',
-                'username': cysend.api_username,
-                'format': 'json',
-                'product': product_id,
-                'beneficiary_account':req.body.phone_number,
-                'value': req.body.amount,
-                'sms_receipt':'no',
-                'tid': 'test_tid3',
-                'sender_mobile':'+923284829922'
+            if (req.body.amount < response['ranges']['0']['range_min']) {
+                res.status(200).json({'message': 'Amount is less than Minimum range', 'httpstatus': 321})
+            } else if (req.body.amount > response['ranges']['0']['range_max']) {
+                res.status(200).json({'message': 'Amount is greater than Maximum range', 'httpstatus': 322})
+            } else {
+                let product_id = response.response.product_id
+                const params = {
+                    'function': 'instant_transfer',
+                    'username': cysend.api_username,
+                    'format': 'json',
+                    'product': product_id,
+                    'beneficiary_account': req.body.phone_number,
+                    'value': req.body.amount,
+                    'sms_receipt': 'no',
+                    'tid': uuidv1(),
+                    'sender_mobile': '+923284829922'
+                }
+
+                let hash = ""
+                Object.keys(params).forEach((key) => {
+                    hash += params[key] + "|"
+                })
+                hash += cysend.api_password;
+                // console.log('before *********', hash)
+                params['hash'] = md5(hash)
+                console.log('params', params)
+                let headers = cysend.api_headers
+                let api_url = cysend.api_url
+
+                request({url: api_url, method: 'POST', form: params, headers: headers}, function (err, http, body) {
+                    // console.log(http)
+                    res.status(200).json(JSON.parse(http.body))
+                }).catch(e => {
+                    res.status(200).json({"message": e, "httpstatus": 400})
+                })
+
             }
 
-            let hash = ""
-            Object.keys(params).forEach((key)=>{
-                hash += params[key] + "|"
-            })
-            hash += cysend.api_password;
-            // console.log('before *********', hash)
-            params['hash'] = md5(hash)
-            console.log('params', params)
-            let headers = cysend.api_headers
-            let api_url =cysend.api_url
-
-            request({url: api_url, method: 'POST',form:params, headers: headers}, function (err, http,body) {
-                // console.log(http)
-                res.status(200).json(JSON.parse(http.body))
-            })
-        }).catch(e=>{
-        res.status(200).json({"message": e, "httpstatus": 400})
-    })
-
+        })
 
 }
 
