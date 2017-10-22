@@ -223,8 +223,6 @@ exports.instantTransfer = function (req, res) {
                 request({url: api_url, method: 'POST', form: params, headers: headers}, function (err, http, body) {
 
                     res.status(200).json(JSON.parse(http.body))
-                }).catch(e => {
-                    res.status(200).json({"message": e, "httpstatus": 400})
                 })
 
             // }
