@@ -204,7 +204,7 @@ exports.instantTransfer = function (req, res) {
             }
             value = value.toFixed(0)
 
-
+            console.log("valueeee", value)
             const params = {
                 'function': 'instant_transfer',
                 'username': cysend.api_username,
