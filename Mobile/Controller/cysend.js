@@ -181,9 +181,6 @@ exports.instantTransfer = function (req, res) {
         res.status(400).json({"message": "Required field error", "httpstatus": 300})
         return
     }
-    if (req.body.currency == "WON") {
-        req.body.amount = parseInt(req.body.amount) / dollar_to_won + ""
-    }
     console.log("amountttttttttttttt", req.body.amount)
     check_mobile(req, res)
         .then((response) => {
