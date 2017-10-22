@@ -228,9 +228,9 @@ exports.instantTransfer = function (req, res) {
             request({url: api_url, method: 'POST', form: params, headers: headers}, function (err, http, body) {
                 tosend = JSON.parse(http.body)
                 if (tosend['response']['status'] === "PROCESSING") {
-                    tosend['httpstatus'] = 210
+                    tosend['response']['httpstatus'] = 210
                 } else if (tosend['response']['status'] === "ERROR") {
-                    tosend['httpstatus'] = 211
+                    tosend['response']['httpstatus'] = 211
                 }
                 res.status(200).json(tosend)
             })
