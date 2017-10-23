@@ -192,11 +192,11 @@ exports.instantTransfer = function (req, res) {
             let product_id = response.response.product_id
             let value = parseFloat(req.body.amount)
             let user_currency = response['response']['product_local_currency']
-            if (user_currency == "KGS") {
+            if (user_currency === "KGS") {
                 value = value / won_to_kgz
-            } else if (user_currency == "RUB") {
+            } else if (user_currency === "RUB") {
                 value = value / won_to_ruble
-            } else if (user_currency == "USD") {
+            } else if (user_currency === "USD") {
                 value = value / won_to_usd
             }
             value = value.toFixed(0)
@@ -224,20 +224,17 @@ exports.instantTransfer = function (req, res) {
             console.log('params', params)
             let headers = cysend.api_headers
             let api_url = cysend.api_url
-            res.status(200).json({'message':response['response'], 'httpstatus': 200})
 
-            // request({url: api_url, method: 'POST', form: params, headers: headers}, function (err, http, body) {
-            //     tosend = JSON.parse(http.body)
-            //     if (tosend['response']['status'] === "PROCESSING") {
-            //         tosend['response']['httpstatus'] = 210
-            //     } else if (tosend['response']['status'] === "ERROR") {
-            //         tosend['response']['httpstatus'] = 211
-            //     }
-            //     console.log(tosend['response'])
-            //     res.status(200).json(tosend['response'])
-            // })
-
-            // }
+            request({url: api_url, method: 'POST', form: params, headers: headers}, function (err, http, body) {
+                tosend = JSON.parse(http.body)
+                if (tosend['response']['status'] === "PROCESSING") {
+                    tosend['response']['httpstatus'] = 210
+                } else if (tosend['response']['status'] === "ERROR") {
+                    tosend['response']['httpstatus'] = 211
+                }
+                console.log(tosend['response'])
+                res.status(200).json(tosend['response'])
+            })
 
         })
 

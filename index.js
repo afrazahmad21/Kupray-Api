@@ -4,6 +4,7 @@ const basic_auth = require('basicauth-middleware')
 const bodyParser= require('body-parser')
 const mobile_routes = require('./Mobile/Routes/index')
 const connection = require('./mysql')
+const path = require('path')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -35,5 +36,5 @@ app.use(function (req, res, next) {
 app.use(basic_auth("kupay","kupay"))
 app.get('/',(req, res)=>{
     console.log("welcome to kupay API");
-    res.status(200).json({"message": "welcome to kupray API"})
+    res.sendFile('Signin.html', { root: path.join(__dirname, './Templates') });
 })
