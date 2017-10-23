@@ -295,3 +295,20 @@ exports.getProfile = function (req, res) {
     }
 
 
+exports.loginAdmin = function (req, res) {
+    console.log(req.body)
+    if(req.body.email === "admin@gmail.com" && req.body.pwd === "kupay"){
+        user_model.getAllUsers(req.app.get('connection'))
+            .then(users =>{
+                console.log(users)
+                for (let user of users){
+                    console.log("phone_number ***", user.phone_number)
+                }
+                res.render('Users.ejs', {users: users})
+            })
+    }else{
+        res.render('SignIn.ejs')
+    }
+}
+
+

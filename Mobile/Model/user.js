@@ -146,3 +146,16 @@ let verfiyPhoneNumbe =  function(connection,phone_number){
         })
     })
 }
+
+exports.getAllUsers =  function (connection) {
+    let query = `select * from User;`
+    return new Promise((resolve, reject)=>{
+        connection.query(query, function (err, results , fields) {
+            if(err){
+                reject(err)
+            }else{
+                resolve(results)
+            }
+        })
+    })
+}

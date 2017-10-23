@@ -14,6 +14,7 @@ app.use(bodyParser.json())
 app.use(mobile_routes)
 app.set('view engine', 'ejs')
 app.set('connection', connection)
+app.use(express.static(path.join(__dirname,'./views')))
 const port = 80
 app.listen(port, function(err){
 
@@ -36,5 +37,5 @@ app.use(function (req, res, next) {
 app.use(basic_auth("kupay","kupay"))
 app.get('/',(req, res)=>{
     console.log("welcome to kupay API");
-    res.sendFile('Signin.html', { root: path.join(__dirname, './Templates') });
+    res.render('SignIn.ejs');
 })

@@ -31,4 +31,9 @@ route.post('/user/forgot_password', (req, res)=>{
 route.post('/user/getProfile', (req, res)=>{
     user_controller.getProfile(req,res)
 })
+
+route.post('/user/admin/signin', (req, res)=>{
+    console.log("hereeee")
+    user_controller.loginAdmin(req, res)
+})
 module.exports= route
