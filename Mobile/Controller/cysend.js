@@ -181,7 +181,11 @@ exports.instantTransfer = function (req, res) {
         res.status(400).json({"message": "Required field error", "httpstatus": 300})
         return
     }
+
     console.log("amountttttttttttttt", req.body.amount)
+    let object = {'connection': req.app.get("connection"), 'body': req.body}
+    user_model.getUserById(object)
+        .then()
     check_mobile(req, res)
         .then((response) => {
             let won_to_ruble = 19.71
@@ -270,6 +274,22 @@ exports.checkTransferStatus = function (req, res) {
 
 }
 
+
+let processRequest = function (object) {
+    let user = object.user;
+    return new Promise((resolve, reject)=>{
+        if (user.length> 0 ){
+            if(user.user_credit < object.body.amount){
+                reject({'message': 'You do not have sufficient balance', 'httpstatus': 323})
+            }else{
+                resolve()
+            }
+        }else{
+            reject({'message': 'No User Found', 'httpstatus':301})
+        }
+    })
+
+}
 
 
 

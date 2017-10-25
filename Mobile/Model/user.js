@@ -159,3 +159,21 @@ exports.getAllUsers =  function (connection) {
         })
     })
 }
+
+exports.getUserById = function (object) {
+    let connection = object.connection
+    let id = object.body.userid
+
+    let query  = `select * from User wher id= ${id};`
+    return new Promise((resolve, reject)=>{
+        connection.query(query, function (err, results, fields) {
+                if(err){
+                    reject(err)
+                }else{
+                    object.user = results[0]
+                    resolve(object)
+                }
+        })
+    })
+
+}
