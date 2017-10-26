@@ -1,0 +1,40 @@
+<nav class="navbar-default" style="background-color:#1E90FF;" >
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"  style="color:white;font-weight:bold">Kupay Admin Panel</a>
+    </div>
+    <ul class="nav navbar-nav" >
+      <% if (page == 1) {%>
+      <li class="active"><a href="/users" style="color:black;font-weight:bold">Users</a></li>
+      <li><a href="/sales" style="color:white;font-weight:bold">Sales</a></li>
+      <li ><a href="/recharge" style="color:white; font-weight:bold">Recharge</a></li>
+      <li ><a href="/transfer" style="color:white; font-weight:bold">Transfer</a></li>
+      <li><a href="/settings" style="color:white; font-weight:bold">Settings</a></li>
+ <% } else if (page == 2) {%>
+      <li ><a href="/users" style="color:white;font-weight:bold">Users</a></li>
+      <li class="active"><a href="/sales" style="color:black;font-weight:bold">Sales</a></li>
+      <li ><a href="/recharge" style="color:white; font-weight:bold">Recharge</a></li>
+      <li ><a href="/transfer" style="color:white; font-weight:bold">Transfer</a></li>
+      <li><a href="/settings" style="color:white; font-weight:bold">Settings</a></li>
+  <%}else  if (page == 3) {%>
+        <li ><a href="/users" style="color:white;font-weight:bold">Users</a></li>
+        <li><a href="/sales" style="color:white;font-weight:bold">Sales</a></li>
+        <li  class="active"><a href="/recharge" style="color:black; font-weight:bold">Recharge</a></li>
+        <li><a href="/transfer" style="color:white; font-weight:bold">Transfer</a></li>
+        <li><a href="/settings" style="color:white; font-weight:bold">Settings</a></li>
+    </ul>
+   <%}else if (page == 4) {%>
+        <li ><a href="/users" style="color:white;font-weight:bold">Users</a></li>
+               <li><a href="/sales" style="color:white;font-weight:bold">Sales</a></li>
+               <li><a href="/recharge" style="color:white; font-weight:bold">Recharge</a></li>
+               <li class="active"><a href="/transfer" style="color:black; font-weight:bold">Transfer</a></li>
+               <li><a href="/settings" style="color:white; font-weight:bold">Settings</a></li>
+     <% }else if (page == 5) {%>
+             <li ><a href="/users" style="color:white;font-weight:bold">Users</a></li>
+                           <li><a href="/sales" style="color:white;font-weight:bold">Sales</a></li>
+                           <li><a href="/recharge" style="color:white; font-weight:bold">Recharge</a></li>
+                           <li><a href="/transfer" style="color:white; font-weight:bold">Transfer</a></li>
+                           <li class="active"><a href="/settings" style="color:black; font-weight:bold">Settings</a></li>
+     <% } %>
+  </div>
+</nav>
